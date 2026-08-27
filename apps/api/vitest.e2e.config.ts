@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     include: [
       "src/shared/**/*.e2e.spec.ts",
-      "src/presentation/health/**/*.e2e.spec.ts",
+      "src/presentation/**/*.e2e.spec.ts",
       "src/contexts/**/*.e2e.spec.ts",
     ],
     fileParallelism: false,
