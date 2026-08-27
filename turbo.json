@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "cacheDir": ".turbo/cache",
+  "tasks": {
+    "lint": {},
+    "format": {
+      "cache": false
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "test:unit": {},
+    "test:integration": {
+      "cache": false,
+      "passThroughEnv": ["DATABASE_URL"]
+    },
+    "test:e2e": {
+      "cache": false
+    }
+  }
+}

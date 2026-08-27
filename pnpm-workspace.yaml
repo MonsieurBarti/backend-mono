@@ -1,0 +1,14 @@
+packages:
+  - apps/*
+  - packages/*
+
+# drizzle-kit 0.31.10 postinstalls esbuild; pnpm 11 ignores that build unless allowed.
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - "@nestjs/common@12.0.1"
+  - "@nestjs/core@12.0.1"
+  - "@nestjs/cqrs@12.0.0"
+  - "@nestjs/platform-express@12.0.1"
+  - "@nestjs/testing@12.0.1"

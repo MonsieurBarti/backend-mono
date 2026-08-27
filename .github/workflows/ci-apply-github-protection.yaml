@@ -1,0 +1,45 @@
+# Purpose: Apply the main branch GitHub ruleset from committed JSON.
+# Triggers: push to main on ruleset and apply-script paths, plus workflow_dispatch.
+# Callers:  n/a
+# Owner:    MonsieurBarti
+name: CI · Apply GitHub protection
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/rulesets/**"
+      - ".github/scripts/apply-github-protection.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-apply-github-protection
+  cancel-in-progress: false
+
+jobs:
+  apply-github-protection:
+    name: Apply GitHub protection
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Require apply secret
+        env:
+          GH_TOKEN: ${{ secrets.APPLY_GITHUB_PROTECTION_PAT }}
+        run: |
+          if [[ -z "${GH_TOKEN}" ]]; then
+            echo "::error::APPLY_GITHUB_PROTECTION_PAT is missing"
+            exit 1
+          fi
+
+      - name: Apply GitHub protection
+        env:
+          GH_TOKEN: ${{ secrets.APPLY_GITHUB_PROTECTION_PAT }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: bash .github/scripts/apply-github-protection.sh

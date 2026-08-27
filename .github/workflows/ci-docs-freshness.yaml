@@ -1,0 +1,47 @@
+# Purpose: The required docs-freshness check detects impacted packs and fails until a changelog update lands.
+# Triggers: pull_request, workflow_dispatch.
+# Callers:  n/a
+# Owner:    MonsieurBarti
+name: "CI · Docs freshness"
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  gate-docs-freshness:
+    name: Docs freshness gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Initialize impacted file
+        run: printf '%s\n' '[]' > "$RUNNER_TEMP/impacted.json"
+
+      - name: Detect impacted doc packs
+        id: detect
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: bash .github/scripts/docs-freshness-detect.sh
+
+      - name: Write impacted file
+        env:
+          IMPACTED: ${{ steps.detect.outputs.impacted }}
+        run: printf '%s' "$IMPACTED" > "$RUNNER_TEMP/impacted.json"
+
+      - name: Evaluate docs freshness gate
+        env:
+          IMPACTED_FILE: ${{ runner.temp }}/impacted.json
+        run: bash .github/scripts/docs-freshness-gate.sh
