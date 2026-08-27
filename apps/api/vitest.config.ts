@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     include: [
       "src/shared/**/*.unit.spec.ts",
-      "src/presentation/health/**/*.unit.spec.ts",
+      "src/presentation/**/*.unit.spec.ts",
       "src/contexts/**/*.unit.spec.ts",
     ],
     pool: "threads",

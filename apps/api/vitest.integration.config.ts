@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     include: [
       "src/shared/**/*.integration.spec.ts",
-      "src/presentation/health/**/*.integration.spec.ts",
+      "src/presentation/**/*.integration.spec.ts",
       "src/contexts/**/*.integration.spec.ts",
     ],
     fileParallelism: false,

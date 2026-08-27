@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "tsc && node dist/main.js",
+    "provision-user": "tsc && node dist/shared/identity/provision-user.cli.js",
     "lint": "oxlint",
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",

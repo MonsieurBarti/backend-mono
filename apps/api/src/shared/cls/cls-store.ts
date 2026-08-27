@@ -34,4 +34,6 @@ export interface AppClsStore extends ClsStore {
 export const CLS_CORRELATION_ID = "correlationId";
 export const CLS_SOURCE = "source";
 export const CLS_IP = "ip";
+export const CLS_ACTOR_ID = "actorId";
+export const CLS_ACTOR_TYPE = "actorType";
 export const CLS_USER_AGENT = "userAgent";
