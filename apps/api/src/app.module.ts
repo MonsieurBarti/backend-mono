@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 
+import { InvestmentsModule } from "./contexts/investments/investments.module.js";
 import { HealthModule } from "./presentation/health/health.module.js";
 import { AuditModule } from "./shared/audit/audit.module.js";
 import { KernelClsModule } from "./shared/cls/cls.module.js";
@@ -17,6 +18,7 @@ import { KernelModule } from "./shared/kernel.module.js";
     KernelModule,
     AuditModule,
     HealthModule,
+    InvestmentsModule,
   ],
 })
 export class AppModule {}
